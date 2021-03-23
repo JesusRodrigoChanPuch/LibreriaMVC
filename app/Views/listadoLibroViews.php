@@ -1,6 +1,5 @@
 <?= $cabecera ?>
 
-<body>
     
     <div class="container-fluid content-row"><br>
     <h1>Lista de Libros disponibles</h1><br> 

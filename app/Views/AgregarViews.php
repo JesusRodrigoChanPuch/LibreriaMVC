@@ -1,6 +1,4 @@
 <?= $cabecera ?>
-
-<body>
     <div class="container">
         <br>
         <div class="card">
@@ -39,7 +37,4 @@
             </div>
         </div>
     </div>
-
-
-
 <?= $PiePagina ?>

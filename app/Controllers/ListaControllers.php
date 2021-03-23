@@ -89,13 +89,13 @@ class ListaControllers extends Controller
 		$id = $this->request->getVar('id_libro');
 		$libro->update($id, $datosF);
 		//validar si hay img
-		$validacion=$this->validate([
-            'imagen'=> [
-                'uploaded[imagen]',
-                'mime_in[imagen, image/jpg,image/jpeg,image/png]',
-                'max_size[imagen,1024]',
-            ]
-        ]);
+		$validacion = $this->validate([
+			'imagen' => [
+				'uploaded[imagen]',
+				'mime_in[imagen, image/jpg,image/jpeg,image/png]',
+				'max_size[imagen,1024]',
+			]
+		]);
 		// si si hay entonces elimina el anterior y actualiza
 		if ($validacion) {
 			if ($imagen = $this->request->getFile('imagen')) {

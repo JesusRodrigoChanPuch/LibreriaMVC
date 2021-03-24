@@ -21,7 +21,16 @@
         <!-- incio de menu de opciones  para admin-->
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="<?= base_url('entrar') ?>">Iniciar Sesión <span class="sr-only">(current)</span></a>
+                <?php
+                if($autenticado){?>
+                    <a class="nav-link" href="<?= base_url('/UsuarioController/cerrarSesion') ?>">Cerrar Sesión <span class="sr-only">(current)</span></a>
+                <?php     
+                }else{ ?>
+                    <a class="nav-link" href="<?= base_url('/entrar') ?>">Iniciar Sesión <span class="sr-only">(current)</span></a>
+              <?php  } ?>
+                
+                
+          
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>

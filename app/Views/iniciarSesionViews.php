@@ -1,5 +1,6 @@
 <?= $cabecera ?>
 <br><br>
+
 <body class="text-center">
     <div class="container">
         <form method="post" action="<?= base_url('/iniciar') ?>" enctype="multipart/form-data" class="form-signin">
@@ -8,10 +9,10 @@
                 <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
             </div>
             <div class="form-label-group">
-                <input type="email" id="correo" class="form-control" placeholder=" Correo" required autofocus>
+                <input type="email" id="correo" name="correo" class="form-control" placeholder=" Correo" required autofocus>
             </div><br>
             <div class="form-label-group">
-                <input type="password" id="contrasena" class="form-control" placeholder="Contraseña" required>
+                <input type="password" name="password" id="contrasena" class="form-control" placeholder="Contraseña" required>
             </div>
             <div class="checkbox mb-3">
                 <label>

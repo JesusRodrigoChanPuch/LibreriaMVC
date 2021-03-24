@@ -23,7 +23,7 @@ class App extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $baseURL = 'http://localhost/Libreria/';
+	public $baseURL = 'http://localhost/LibreriaMVC/';
 
 	/**
 	 * --------------------------------------------------------------------------

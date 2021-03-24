@@ -9,6 +9,10 @@ use PHPUnit\Framework\MockObject\Verifiable;
 
 class UsuarioController extends Controller
 { // vistas 
+   
+    public function __construct(){
+
+    }
     public function index()
     // funcion para la vista de iniciar sesion
     {
@@ -29,23 +33,54 @@ class UsuarioController extends Controller
     // inicio de funcionalidad(peticion ala base de datos)
     public function iniciar()
     {
-        echo "en proceso de acceso";
+        $correo = $this->request->getPost('correo');
+        $password = $this->request->getPost('password');
+        if($this->exists($correo,$password)){
+            $session = \Config\Services::session();
+            $data = [
+                'email'=>$correo
+            ];
+            $session->set($data);
+           return $this->response->redirect(base_url('/'));
+        }else{
+            return redirect()->back()->with('mensaje','correo o contraseña incorrecto');
+        }
+        
     }
     public function registro()
     // esta funcion es para registar los datos del usuario
     {
-        $validation =  \Config\Services::validation();
-        $validation->setRules([
-            'nombres' => 'required',
-            'correo' => 'required|valid_email|is_unique[usuarios.correo]',
-            'contrasena' => 'required|min_length[5]|max_length[20]',
-            'confContrasena' => 'required|min_length[5]|max_length[20]|matches[contrasena]'
-        ]);
-        $validation->withRequest($this->request)->run();
-        if ($validation->withRequest($this->request)->run()) {
-            echo $validation->getError();
+        $nombre = $this->request->getVar('nombre');
+        $password = $this->request->getVar('password');
+        $passwordConfirm = $this->request->getVar('passwordConfirm');
+        $correo = $this->request->getVar('correo');
+
+        if($password !== $passwordConfirm){
+            echo "Las contraseñas no coinciden";
         }
-        exit();
+
+        $datos = ['nombre'=>$nombre,'password'=>$password,'correo'=>$correo];
+        
+        $user = new UsuariosModel();
+
+        $user->save($datos);
+        $message = "creado con exito";
+        return $this->response->redirect(base_url('/entrar'));
     }
     // fin de Funccionalidad
+
+     private function exists($email, $password) {
+        $model = new UsuariosModel();
+        $account = $model->where('correo', $email)->where('password',$password)->first();
+        if ($account != NULL) {
+                return $account;
+        }
+        return NULL;
+    }
+
+    public function cerrarSesion(){
+        $session = \Config\Services::session();
+        $session->destroy();
+        return $this->response->redirect(base_url('/entrar'));
+    }
 }

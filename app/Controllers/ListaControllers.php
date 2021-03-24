@@ -9,11 +9,20 @@ class ListaControllers extends Controller
 {
 	public function index()
 	{
-		$libro = new GetModel();
-		$datos['libros'] = $libro->orderBy('id_libro', 'ASC')->findALL();
-		$datos['cabecera'] = view('cuerpo/cabecera');
-		$datos['PiePagina'] = view('cuerpo/PiePagina');
-		return view('listadoLibroViews', $datos);
+		$session = \Config\Services::session();
+		if($session->has('email')){
+			$autenticado = true;
+			$libro = new GetModel();
+			$datos['libros'] = $libro->orderBy('id_libro', 'ASC')->findALL();
+			$datos['cabecera'] = view('cuerpo/cabecera',array(
+				'autenticado'=>$autenticado
+			));
+			$datos['PiePagina'] = view('cuerpo/PiePagina');
+			$datos['autenticado'] = $autenticado;
+			return view('listadoLibroViews', $datos);
+		}else{
+			return $this->response->redirect(base_url('/entrar'));
+		}
 	}
 
 	public function agregar()
@@ -107,7 +116,11 @@ class ListaControllers extends Controller
 				$datosF = ['rutaImg' => $nombreImg];
 				$libro->update($id, $datosF);
 			}
+		}else{
+			$message = ['tipo'=>'error','mensaje'=> 'La imagen no tiene el formato correcto'];
+			return $this->response->redirect(base_url('/'))->with('');
 		}
+
 		return $this->response->redirect(base_url('/'));
 	}
 	// mostrar libro individual

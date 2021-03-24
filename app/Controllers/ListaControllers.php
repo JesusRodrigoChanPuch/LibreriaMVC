@@ -150,14 +150,16 @@ class ListaControllers extends Controller
 	// metdos para el buscador
 	public function buscarV()
 	{ // funcion para ir ala vista de buscar 
-		$libro = new GetModel();
+		//bibliotecas de codelgniter
+		$pager = \Config\Services::pager();
 		$db = \Config\Database::connect();
+		$libro = new GetModel();
+		
 		$dato = $this->request->getPost('search');
-		$array = ['titulo' => $dato, 'autor' => $dato, 'descripcionC' => $dato,'descripcionL' => $dato,'editorial' => $dato];
-		$libro->orlike($array);
-		$datos['libros']=$array;
-		// $datos['libros']= $libro->like('titulo', $dato)->orLike('autor', $dato)
-		// ->orLike('descripcionC', $dato)->orLike('descripcionL', $dato)->orLike('editorial', $dato)->first();
+		
+		$datos['libros']= $libro->like('titulo', $dato)->orLike('autor', $dato)
+		->orLike('descripcionC', $dato)->orLike('descripcionL', $dato)->orLike('editorial', $dato)->findALL();
+
 
 		$datos['cabecera'] = view('cuerpo/cabecera');
 		$datos['PiePagina'] = view('cuerpo/PiePagina');

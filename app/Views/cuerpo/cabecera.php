@@ -20,38 +20,30 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- incio de menu de opciones  para admin-->
         <ul class="navbar-nav mr-auto">
+            <?php if (isset($autenticado)) { ?>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Opciones
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="<?= base_url('agregar') ?>">Agregar</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="<?= base_url('eliminar') ?>">Editar o Eliminar</a>
+                    </div>
+                </li><?php } ?>
             <li class="nav-item active">
                 <?php
-                if($autenticado){?>
+                if (isset($autenticado)) { ?>
                     <a class="nav-link" href="<?= base_url('/UsuarioController/cerrarSesion') ?>">Cerrar Sesión <span class="sr-only">(current)</span></a>
-                <?php     
-                }else{ ?>
+                <?php
+                } else { ?>
                     <a class="nav-link" href="<?= base_url('/entrar') ?>">Iniciar Sesión <span class="sr-only">(current)</span></a>
-              <?php  } ?>
-                
-                
-          
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Opciones
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="<?= base_url('agregar') ?>">Agregar</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="<?= base_url('eliminar') ?>">Editar o Eliminar</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="https://www.twitch.tv/jrodrigochanp">Sobre mi</a>
+                <?php  } ?>
             </li>
         </ul>
         <!-- fin de opciones para admin -->
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <form method="post" action="<?= base_url('/buscarV') ?>" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>

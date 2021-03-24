@@ -59,6 +59,7 @@ $routes->get('borrar/(:num)', 'ListaControllers::borrar/$1');
 $routes->get('actualizar/(:num)', 'ListaControllers::actualizar/$1');
 $routes->post('editar', 'ListaControllers::editar');
 $routes->get('mostrar/(:num)', 'ListaControllers::mostrar/$1');
+$routes->post('buscarV', 'ListaControllers::buscarV'); 
 $routes->get('registrarse', 'UsuarioController::registrarse'); // ruta para acceder ala vista de registro
 $routes->post('registro', 'UsuarioController::registro'); // ruta para rescatar los datos del formulario de registro
 $routes->get('entrar', 'UsuarioController::index');// ruta para acceder ala vista de iniciar sesion

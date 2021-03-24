@@ -10,30 +10,45 @@ class ListaControllers extends Controller
 	public function index()
 	{
 		$session = \Config\Services::session();
-		if($session->has('email')){
+		if ($session->has('email')) {
 			$autenticado = true;
-			$libro = new GetModel();
-			$datos['libros'] = $libro->orderBy('id_libro', 'ASC')->findALL();
-			$datos['cabecera'] = view('cuerpo/cabecera',array(
-				'autenticado'=>$autenticado
+			$datos['cabecera'] = view('cuerpo/cabecera', array(
+				'autenticado' => $autenticado
 			));
-			$datos['PiePagina'] = view('cuerpo/PiePagina');
 			$datos['autenticado'] = $autenticado;
-			return view('listadoLibroViews', $datos);
-		}else{
-			return $this->response->redirect(base_url('/entrar'));
 		}
+		$libro = new GetModel();
+		$datos['libros'] = $libro->orderBy('id_libro', 'ASC')->findALL();
+		$datos['PiePagina'] = view('cuerpo/PiePagina');
+		$datos['cabecera'] = view('cuerpo/cabecera');
+		return view('listadoLibroViews', $datos);
 	}
 
 	public function agregar()
 	{ // Este metodo es para poder ir ala vista agregar
+		$session = \Config\Services::session();
+		if ($session->has('email')) {
+			$autenticado = true;
+			$datos['cabecera'] = view('cuerpo/cabecera', array(
+				'autenticado' => $autenticado
+			));
+			$datos['autenticado'] = $autenticado;
+		}
 		$datos['cabecera'] = view('cuerpo/cabecera');
 		$datos['PiePagina'] = view('cuerpo/PiePagina');
 		return view('AgregarViews', $datos);
 	}
 
 	public function eliminar()
-	{ // este metodo es para redireccionarme ala vista eliminar
+	{ // este metodo es para redireccionarme ala vista eliminar o editar
+		$session = \Config\Services::session();
+		if ($session->has('email')) {
+			$autenticado = true;
+			$datos['cabecera'] = view('cuerpo/cabecera', array(
+				'autenticado' => $autenticado
+			));
+			$datos['autenticado'] = $autenticado;
+		}
 		$libro = new GetModel();
 		$datos['libros'] = $libro->orderBy('id_libro', 'ASC')->findALL();
 		$datos['cabecera'] = view('cuerpo/cabecera');
@@ -116,8 +131,8 @@ class ListaControllers extends Controller
 				$datosF = ['rutaImg' => $nombreImg];
 				$libro->update($id, $datosF);
 			}
-		}else{
-			$message = ['tipo'=>'error','mensaje'=> 'La imagen no tiene el formato correcto'];
+		} else {
+			$message = ['tipo' => 'error', 'mensaje' => 'La imagen no tiene el formato correcto'];
 			return $this->response->redirect(base_url('/'))->with('');
 		}
 
@@ -131,5 +146,21 @@ class ListaControllers extends Controller
 		$datos['cabecera'] = view('cuerpo/cabecera');
 		$datos['PiePagina'] = view('cuerpo/PiePagina');
 		return view('mostrarViews', $datos);
+	}
+	// metdos para el buscador
+	public function buscarV()
+	{ // funcion para ir ala vista de buscar 
+		$libro = new GetModel();
+		$db = \Config\Database::connect();
+		$dato = $this->request->getPost('search');
+		$array = ['titulo' => $dato, 'autor' => $dato, 'descripcionC' => $dato,'descripcionL' => $dato,'editorial' => $dato];
+		$libro->orlike($array);
+		$datos['libros']=$array;
+		// $datos['libros']= $libro->like('titulo', $dato)->orLike('autor', $dato)
+		// ->orLike('descripcionC', $dato)->orLike('descripcionL', $dato)->orLike('editorial', $dato)->first();
+
+		$datos['cabecera'] = view('cuerpo/cabecera');
+		$datos['PiePagina'] = view('cuerpo/PiePagina');
+		return view('buscarViews', $datos);
 	}
 }

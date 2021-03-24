@@ -1,0 +1,3 @@
+<?= $cabecera ?>
+<?=print_r($libros);?>
+<?= $PiePagina ?>

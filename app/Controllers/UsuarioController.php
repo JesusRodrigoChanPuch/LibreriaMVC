@@ -9,9 +9,9 @@ use PHPUnit\Framework\MockObject\Verifiable;
 
 class UsuarioController extends Controller
 { // vistas 
-   
-    public function __construct(){
 
+    public function __construct()
+    {
     }
     public function index()
     // funcion para la vista de iniciar sesion
@@ -35,17 +35,17 @@ class UsuarioController extends Controller
     {
         $correo = $this->request->getPost('correo');
         $password = $this->request->getPost('password');
-        if($this->exists($correo,$password)){
+        if ($this->exists($correo, $password)) {
             $session = \Config\Services::session();
             $data = [
-                'email'=>$correo
+                'email' => $correo
             ];
             $session->set($data);
-           return $this->response->redirect(base_url('/'));
-        }else{
-            return redirect()->back()->with('mensaje','correo o contraseña incorrecto');
+            return $this->response->redirect(base_url('/'));
+        } else {
+            return redirect()->back()->with('mensaje', 'correo o contraseña incorrecto');
+            
         }
-        
     }
     public function registro()
     // esta funcion es para registar los datos del usuario
@@ -55,12 +55,12 @@ class UsuarioController extends Controller
         $passwordConfirm = $this->request->getVar('passwordConfirm');
         $correo = $this->request->getVar('correo');
 
-        if($password !== $passwordConfirm){
+        if ($password !== $passwordConfirm) {
             echo "Las contraseñas no coinciden";
         }
 
-        $datos = ['nombre'=>$nombre,'password'=>$password,'correo'=>$correo];
-        
+        $datos = ['nombre' => $nombre, 'password' => $password, 'correo' => $correo];
+
         $user = new UsuariosModel();
 
         $user->save($datos);
@@ -69,16 +69,18 @@ class UsuarioController extends Controller
     }
     // fin de Funccionalidad
 
-     private function exists($email, $password) {
+    private function exists($email, $password)
+    {
         $model = new UsuariosModel();
-        $account = $model->where('correo', $email)->where('password',$password)->first();
+        $account = $model->where('correo', $email)->where('password', $password)->first();
         if ($account != NULL) {
-                return $account;
+            return $account;
         }
         return NULL;
     }
 
-    public function cerrarSesion(){
+    public function cerrarSesion()
+    {
         $session = \Config\Services::session();
         $session->destroy();
         return $this->response->redirect(base_url('/entrar'));

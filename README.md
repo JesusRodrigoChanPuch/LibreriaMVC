@@ -1,5 +1,7 @@
 Proytecto Biblioteca
+
 Este es un proyecto de practica, usando un FRAMEWORK 
+
 el cual elegi Codelgniter 4.1.1
 este proyecto consiste en una pagina web de una biblioteca de libros con el pradigna de programacion MVC que contiene lo siguente:
 1- vista corta de libros registrados en la base de datos 
